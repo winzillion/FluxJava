@@ -17,6 +17,8 @@ In this demo, you can:
  * Add a todo.
  * Close/Open a todo.
 
+![demo-screenshot](https://cloud.githubusercontent.com/assets/22995091/20027437/ac19b4fa-a34f-11e6-95f9-d2f0f5159a0c.gif)
+
 This demo project uses [EventBus](https://github.com/greenrobot/EventBus) from [greenrobot](http://greenrobot.org/) to help dispatcher and stores to send out messages.
 
 If you want to get benefit from [RxJava](https://github.com/ReactiveX/RxJava), you can check out `fluxjava-rx` folder for FluxJava addon.
