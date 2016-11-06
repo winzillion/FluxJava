@@ -4,6 +4,11 @@ jdk:
 - oraclejdk7
 - oraclejdk8
 
+install: true
+
 script:
 - ./gradlew :fluxjava:check
 - ./gradlew :fluxjava-rx:check
+
+notifications:
+  email: false
