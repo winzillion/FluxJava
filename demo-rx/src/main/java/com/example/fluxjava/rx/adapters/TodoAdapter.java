@@ -113,6 +113,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
         }
         inViewHolder.dueDate.setText(item.dueDate);
         inViewHolder.memo.setText(item.memo);
+        inViewHolder.closed.setOnCheckedChangeListener(null);
         inViewHolder.closed.setChecked(item.closed);
         inViewHolder.closed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

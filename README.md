@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/winzillion/FluxJava.svg?branch=master)](https://travis-ci.org/winzillion/FluxJava)
+
 # FluxJava
 FluxJava is a java library that implements Flux pattern. And it is small and light-weight can be used easily to follow the Flux pattern.
 [Flux](https://facebook.github.io/flux/docs/overview.html) is an architecture designed at Facebook.
@@ -37,7 +39,7 @@ If you also include `fluxjava-rx` in your project, then RxBus will be the one yo
 Dispatcher uses actions to inform store something to do.
 There are two properties in Action, type and data.
 The type tells store what to do and the data is the additional information for specific action.
-In the demo project, when a todo be added from UI the new todo will be included in the data of action.
+In the demo project, when a todo be added from UI, the new todo will be included in the data of action.
 * **ActionHelper**<br />
 ActionHelper assists ActionCreator to decide which action to create and how to prepare data in action when a request coming.
 * **Store**<br />
@@ -54,7 +56,7 @@ In FluxJava, you can find a FluxContext as entry point of framework.
 FluxContext is a singleton, it helps to hook components together and maintain the instance of components.
 
 You can build FluxContext instance by using Builder inside it as below:
-```
+``` java
 FluxContext.getBuilder()
         .setBus(new Bus())
         .setActionHelper(new ActionHelper())
@@ -63,26 +65,29 @@ FluxContext.getBuilder()
 ```
 
 ## Send Request
-After UI component get the input from user, it can push an action through ActionCreator which is get from FluxContext.
+After UI component get the input from user, it can push an action through ActionCreator which is got from FluxContext.
 The built-in ActionCreator only provides one function - `sendRequest`.
 UI component has to input which class of action to be created by an Id and the data get from user.
 The data can be transfer into the format for store need later in ActionHelper.
 
 Here is the sample code below:
 
-```
+``` java
 Todo todo = new Todo();
 
 FluxContext.getInstance()
         .getActionCreator()
         .sendRequestAsync(TODO_ADD, todo);
 ```
+There are two versions of `sendRequest`, sync and async.
+The async version will create new thread and send the message out on it.
+If you prefer to control thread by your own or you want to use a thread pool, you can choose the sync version.
 
 ## Process Data
 Base on which bus solution you used, you need to intercept the specific types of action in store.
 You may add a function inside store class with annotation like demo project did.
 The code below is the example when using EventBus:
-```
+``` java
 @Subscribe(threadMode = ThreadMode.BACKGROUND)
 public void onAction(final TodoAction inAction) {
     switch (inAction.getType()) {
@@ -102,7 +107,7 @@ public void onAction(final TodoAction inAction) {
 }
 ```
 If you use `fluxjava-rx`, your store class inherits from RxStore, then you can overwrite `onAction` from RxStore as below:
-```
+``` java
 @Override
 protected <TAction extends IFluxAction> void onAction(final TAction inAction) {
     final TodoAction action = (TodoAction)inAction;
@@ -126,14 +131,14 @@ protected <TAction extends IFluxAction> void onAction(final TAction inAction) {
 ## Display Change
 As store, UI component want to receive the events from store is also base on which bus you use.
 In EventBus case:
-```
+``` java
 @Subscribe(threadMode = ThreadMode.MAIN)
 public void onEvent(final TodoStore.ListChangeEvent inEvent) {
     super.notifyDataSetChanged();
 }
 ```
 In RxBus case:
-```
+``` java
 todoStore.toObservable(TodoStore.ListChangeEvent.class)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe(
