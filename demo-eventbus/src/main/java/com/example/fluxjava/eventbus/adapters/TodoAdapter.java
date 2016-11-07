@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.example.fluxjava.eventbus.R;
 import com.example.fluxjava.eventbus.domain.models.Todo;
 import com.example.fluxjava.eventbus.domain.stores.TodoStore;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

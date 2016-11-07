@@ -19,7 +19,7 @@ import com.example.fluxjava.eventbus.domain.actions.TodoAction;
 import com.example.fluxjava.eventbus.domain.actions.UserAction;
 import com.example.fluxjava.eventbus.domain.models.Todo;
 import com.example.fluxjava.eventbus.domain.models.User;
-import com.wzcodes.fluxjava.IActionHelper;
+import io.wzcodes.fluxjava.IActionHelper;
 
 import java.util.ArrayList;
 

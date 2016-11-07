@@ -17,7 +17,7 @@ package com.example.fluxjava.rx.domain.stores
 
 import com.example.fluxjava.rx.domain.actions.UserAction
 import com.example.fluxjava.rx.domain.models.User
-import com.wzcodes.fluxjava.rx.RxBus
+import io.wzcodes.fluxjava.rx.RxBus
 import rx.functions.Action1
 import spock.lang.Specification
 

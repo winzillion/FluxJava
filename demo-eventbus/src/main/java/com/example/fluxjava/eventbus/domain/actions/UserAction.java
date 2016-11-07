@@ -16,7 +16,7 @@
 package com.example.fluxjava.eventbus.domain.actions;
 
 import com.example.fluxjava.eventbus.domain.models.User;
-import com.wzcodes.fluxjava.FluxAction;
+import io.wzcodes.fluxjava.FluxAction;
 
 import java.util.List;
 

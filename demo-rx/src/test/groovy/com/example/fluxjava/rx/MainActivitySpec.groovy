@@ -20,7 +20,7 @@ import android.support.v7.widget.RecyclerView
 import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.TextView
-import com.wzcodes.fluxjava.rx.RxBus
+import io.wzcodes.fluxjava.rx.RxBus
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboMenuItem

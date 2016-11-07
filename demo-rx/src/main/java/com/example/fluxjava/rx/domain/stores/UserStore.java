@@ -17,10 +17,10 @@ package com.example.fluxjava.rx.domain.stores;
 
 import com.example.fluxjava.rx.domain.actions.UserAction;
 import com.example.fluxjava.rx.domain.models.User;
-import com.wzcodes.fluxjava.FluxContext;
-import com.wzcodes.fluxjava.IFluxAction;
-import com.wzcodes.fluxjava.IFluxBus;
-import com.wzcodes.fluxjava.rx.RxStore;
+import io.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.IFluxAction;
+import io.wzcodes.fluxjava.IFluxBus;
+import io.wzcodes.fluxjava.rx.RxStore;
 
 import java.util.ArrayList;
 

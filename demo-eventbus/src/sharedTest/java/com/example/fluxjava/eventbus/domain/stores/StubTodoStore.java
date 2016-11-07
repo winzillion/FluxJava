@@ -17,7 +17,7 @@ package com.example.fluxjava.eventbus.domain.stores;
 
 import com.example.fluxjava.eventbus.domain.actions.TodoAction;
 import com.example.fluxjava.eventbus.domain.models.Todo;
-import com.wzcodes.fluxjava.IFluxBus;
+import io.wzcodes.fluxjava.IFluxBus;
 
 import static com.example.fluxjava.eventbus.domain.Constants.TODO_LOAD;
 

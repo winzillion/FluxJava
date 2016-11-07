@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/winzillion/FluxJava.svg?branch=master)](https://travis-ci.org/winzillion/FluxJava)
+[![Build Status](https://travis-ci.org/winzillion/FluxJava.svg?branch=master)](https://travis-ci.org/winzillion/FluxJava) [![Code Coverage](https://img.shields.io/codecov/c/github/winzillion/FluxJava/master.svg)](https://codecov.io/github/winzillion/FluxJava?branch=master)
+ [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # FluxJava
 FluxJava is a java library that implements Flux pattern. And it is small and light-weight can be used easily to follow the Flux pattern.

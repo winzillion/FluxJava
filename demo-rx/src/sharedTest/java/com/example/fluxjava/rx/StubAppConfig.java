@@ -20,8 +20,8 @@ import android.app.Application;
 import com.example.fluxjava.rx.domain.StubActionHelper;
 import com.example.fluxjava.rx.domain.stores.StubTodoStore;
 import com.example.fluxjava.rx.domain.stores.StubUserStore;
-import com.wzcodes.fluxjava.FluxContext;
-import com.wzcodes.fluxjava.rx.RxBus;
+import io.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.rx.RxBus;
 
 import java.util.HashMap;
 

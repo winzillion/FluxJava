@@ -13,8 +13,9 @@ targetCompatibility = "1.7"
 
 jacocoTestReport {
     reports {
-        xml.enabled false
-        csv.enabled false
-        html.destination "${buildDir}/jacocoHtml"
+        xml.enabled true
+        html.enabled = true
     }
 }
+
+check.dependsOn jacocoTestReport

@@ -21,7 +21,7 @@ import com.example.fluxjava.eventbus.domain.Bus;
 import com.example.fluxjava.eventbus.domain.StubActionHelper;
 import com.example.fluxjava.eventbus.domain.stores.StubTodoStore;
 import com.example.fluxjava.eventbus.domain.stores.StubUserStore;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import java.util.HashMap;
 

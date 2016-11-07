@@ -15,7 +15,7 @@
  */
 package com.example.fluxjava.eventbus.domain;
 
-import com.wzcodes.fluxjava.IFluxBus;
+import io.wzcodes.fluxjava.IFluxBus;
 
 import org.greenrobot.eventbus.EventBus;
 

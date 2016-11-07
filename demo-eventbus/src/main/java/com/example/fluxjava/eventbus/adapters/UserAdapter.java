@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.example.fluxjava.eventbus.R;
 import com.example.fluxjava.eventbus.domain.stores.UserStore;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import org.greenrobot.eventbus.Subscribe;
 

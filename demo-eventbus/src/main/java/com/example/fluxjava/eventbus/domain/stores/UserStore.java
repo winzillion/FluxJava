@@ -17,9 +17,9 @@ package com.example.fluxjava.eventbus.domain.stores;
 
 import com.example.fluxjava.eventbus.domain.actions.UserAction;
 import com.example.fluxjava.eventbus.domain.models.User;
-import com.wzcodes.fluxjava.FluxContext;
-import com.wzcodes.fluxjava.FluxStore;
-import com.wzcodes.fluxjava.IFluxBus;
+import io.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxStore;
+import io.wzcodes.fluxjava.IFluxBus;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

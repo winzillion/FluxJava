@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.example.fluxjava.rx.R;
 import com.example.fluxjava.rx.domain.stores.UserStore;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;

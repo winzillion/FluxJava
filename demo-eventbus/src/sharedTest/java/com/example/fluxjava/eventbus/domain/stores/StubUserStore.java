@@ -17,7 +17,7 @@ package com.example.fluxjava.eventbus.domain.stores;
 
 import com.example.fluxjava.eventbus.domain.actions.UserAction;
 import com.example.fluxjava.eventbus.domain.models.User;
-import com.wzcodes.fluxjava.IFluxBus;
+import io.wzcodes.fluxjava.IFluxBus;
 
 public class StubUserStore extends UserStore {
 

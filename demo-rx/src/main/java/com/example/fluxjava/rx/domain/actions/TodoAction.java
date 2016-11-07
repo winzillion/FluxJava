@@ -16,7 +16,7 @@
 package com.example.fluxjava.rx.domain.actions;
 
 import com.example.fluxjava.rx.domain.models.Todo;
-import com.wzcodes.fluxjava.FluxAction;
+import io.wzcodes.fluxjava.FluxAction;
 
 import java.util.List;
 

@@ -26,7 +26,7 @@ import android.widget.Spinner;
 
 import com.example.fluxjava.rx.adapters.TodoAdapter;
 import com.example.fluxjava.rx.adapters.UserAdapter;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import static com.example.fluxjava.rx.domain.Constants.TODO_LOAD;
 import static com.example.fluxjava.rx.domain.Constants.USER_LOAD;

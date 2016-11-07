@@ -28,7 +28,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.fluxjava.eventbus.domain.models.Todo;
-import com.wzcodes.fluxjava.FluxContext;
+import io.wzcodes.fluxjava.FluxContext;
 
 import static com.example.fluxjava.eventbus.domain.Constants.TODO_ADD;
 
