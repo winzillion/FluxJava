@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/winzillion/FluxJava.svg?branch=master)](https://travis-ci.org/winzillion/FluxJava) [![Code Coverage](https://img.shields.io/codecov/c/github/winzillion/FluxJava/master.svg)](https://codecov.io/github/winzillion/FluxJava?branch=master)
+[![Build Status](https://travis-ci.org/winzillion/FluxJava.svg?branch=master)](https://travis-ci.org/winzillion/FluxJava) [![Code Coverage](https://img.shields.io/codecov/c/github/winzillion/FluxJava/master.svg)](https://codecov.io/github/winzillion/FluxJava?branch=master) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9332a0f020784eebbbc8222d534e5480)](https://www.codacy.com/app/winzillion/FluxJava?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=winzillion/FluxJava&amp;utm_campaign=Badge_Grade)
  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # FluxJava
@@ -10,8 +10,22 @@ FluxJava is not only focus on Android projects but also any other Java ones.
 Flux is a good practice to help reduce the problems of MVC complicate dependencies when the number of views grow up in Android projects.
 It also can be applied into different kinds of interactive interface that need to access data, not just user interface.
 
+# Binaries
+You may find the latest version [here](https://github.com/winzillion/FluxJava/releases/latest).
+
+# Setup
+For Gradle projects, put the binaries into the folder that build.gradle reference to. In Android case, you can put the files into `libs` folder inside your project or module. 
+
+If you want to use `fluxjava-rx` in your project, you may need to add next dependency in the build.gradle of the module:
+``` groovy
+dependencies {
+    ...
+    compile "io.reactivex:rxjava:1.2.+”
+}
+```
+
 # Getting Started
-In repository, you can find the source of FluxJava in `fluxjava` folder
+In this repository, you can find the source of FluxJava in `fluxjava` folder
 and a demo Android project in `demo-eventbus` folder.
 The demo is a simple todo application with one Activity.
 In this demo, you can:

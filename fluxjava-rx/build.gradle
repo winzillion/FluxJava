@@ -21,3 +21,19 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+group = 'io.wzcodes.fluxjava'
+version = '0.1'
+
+task binaryCopy(type: Copy) {
+    from 'build/libs'
+    from "${project(':fluxjava').projectDir}/build/libs"
+    into 'build/binary'
+}
+
+task binaryZip(type: Zip, dependsOn: binaryCopy) {
+    from 'build/binary'
+    archiveName = 'binary.zip'
+}
+
+

@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: "jacoco"
+apply plugin: "maven-publish"
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -19,3 +20,6 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+group = 'io.wzcodes.fluxjava'
+version = '0.1'

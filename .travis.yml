@@ -21,12 +21,36 @@ android:
     - extra-android-m2repository
     - extra-android-support
 
+# Using cache to speed up
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+# Uncomment the line below to speed up
+# install: echo "skip 'gradle assemble' step"
+
 script:
-- ./gradlew :fluxjava:check
-- ./gradlew :fluxjava-rx:check
+- ./gradlew :fluxjava:build
+- ./gradlew :fluxjava-rx:build
 
 after_success:
+  # Code coverage
   - bash <(curl -s https://codecov.io/bash)
+  # Make pacakge for Github releases
+  - ./gradlew :fluxjava-rx:binaryZip
+
+# Push to Github releases
+deploy:
+  provider: releases
+  api_key: ${GH_TOKEN}
+  file: "fluxjava-rx/build/distributions/binary.zip"
+  skip_cleanup: true
+  on:
+    tags: true # Only push commit with tag
 
 notifications:
   email: false
