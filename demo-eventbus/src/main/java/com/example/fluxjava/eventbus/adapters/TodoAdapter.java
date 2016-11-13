@@ -56,7 +56,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.ViewHolder> {
 
     public TodoAdapter() {
         // get the instance of store that will provide data
-        this.mStore = (TodoStore) FluxContext.getInstance().getStore(DATA_TODO, null, this);
+        this.mStore = (TodoStore)FluxContext.getInstance().getStore(DATA_TODO, null, this);
     }
 
     @Override

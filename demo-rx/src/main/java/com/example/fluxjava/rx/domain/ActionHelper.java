@@ -59,7 +59,7 @@ public class ActionHelper implements IActionHelper {
 
         // base on data type to convert data into require form
         if (inData instanceof Integer) {
-            result = this.getData((int)inData, -1);
+            result = this.getRemoteData((int)inData, -1);
         }
         if (inData instanceof String) {
             final String[] command = ((String)inData).split(":");
@@ -68,7 +68,7 @@ public class ActionHelper implements IActionHelper {
 
             action = Integer.valueOf(command[0]);
             position = Integer.valueOf(command[1]);
-            result = this.getData(action, position);
+            result = this.getRemoteData(action, position);
         }
         if (inData instanceof Todo) {
             final ArrayList<Todo> todoList = new ArrayList<>();
@@ -81,7 +81,7 @@ public class ActionHelper implements IActionHelper {
         return result;
     }
 
-    private Object getData(final int inAction, final int inPosition) {
+    private Object getRemoteData(final int inAction, final int inPosition) {
         Object result = null;
 
         switch (inAction) {

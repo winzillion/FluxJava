@@ -26,6 +26,7 @@ import com.example.fluxjava.eventbus.domain.stores.UserStore;
 import io.wzcodes.fluxjava.FluxContext;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static com.example.fluxjava.eventbus.domain.Constants.DATA_USER;
 
@@ -35,7 +36,7 @@ public class UserAdapter extends BaseAdapter {
 
     public UserAdapter() {
         // get the instance of store that will provide data
-        this.mStore = (UserStore) FluxContext.getInstance().getStore(DATA_USER, null, this);
+        this.mStore = (UserStore)FluxContext.getInstance().getStore(DATA_USER, null, this);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class UserAdapter extends BaseAdapter {
         return itemView;
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(final UserStore.ListChangeEvent inEvent) {
         super.notifyDataSetChanged();
     }

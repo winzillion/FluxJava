@@ -7,7 +7,7 @@ FluxJava is a java library that implements Flux pattern. And it is small and lig
 With it's one-way data flow principle, it makes tracing changes during development simpler and makes bugs easier to track down and fix.
 
 FluxJava is not only focus on Android projects but also any other Java ones.
-Flux is a good practice to help reduce the problems of MVC complicate dependencies when the number of views grow up in Android projects.
+Flux is a good practice to help reduce the problems of MVC complicate dependencies when the number of views goes up in Android projects.
 It also can be applied into different kinds of interactive interface that need to access data, not just user interface.
 
 # Binaries
@@ -62,11 +62,10 @@ Store receives the action sent from Dispatcher and processes data base on action
 It will emmit an event when job done then the event listener can refresh the new state of data.
 * **Store Map**<br />
 StoreMap is a hash map, it tells framework how to get an instance of store.
-For example, if the relationship of action and store is one-by-one, you can use Action type for the key of map.
-In the demo project, you can find two types of action, UserAction and TodoAction.
-They are also used to map store. So, TodoStore will be responsible for process todo data request and so on.
+For example, if the relationship of action and store is one-by-one, you can use Action type for the key of map, or you can simply use Integer to be the key.
+In the demo project, you can find two constants in `Constants.java`, DATA_USER and DATA_TODO, they are used to map store. So, TodoStore will be responsible for process todo data request and so on.
 
-## Initialization
+## Initialisation
 In FluxJava, you can find a FluxContext as entry point of framework.
 FluxContext is a singleton, it helps to hook components together and maintain the instance of components.
 
@@ -164,6 +163,9 @@ todoStore.toObservable(TodoStore.ListChangeEvent.class)
                     }
                 });
 ```
+
+# Reference
+[A tutorial for FluxJava](https://wznote.blogspot.com/2016/11/a-tutorial-for-fluxjava.html)
 
 License
 =======
