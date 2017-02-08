@@ -18,12 +18,13 @@ package io.wzcodes.fluxjava.rx
 import io.wzcodes.fluxjava.FluxAction
 import io.wzcodes.fluxjava.FluxContext
 import io.wzcodes.fluxjava.IFluxAction
-import io.wzcodes.fluxjava.rx.IRxDataChange
-import io.wzcodes.fluxjava.rx.RxStore
 import rx.functions.Action1
 import rx.subjects.PublishSubject
 import rx.subjects.SerializedSubject
 import spock.lang.Specification
+
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 class RxStoreSpec extends Specification {
 
@@ -38,19 +39,28 @@ class RxStoreSpec extends Specification {
     }
 
     private static class StubRxStore extends RxStore<Object> {
-        private List<?> mActionList
+        private Map<Long, ?> mActionMap
         private List<?>  mErrorList
         private Class<?> mActionType
+        private Executor mExecutor
 
         StubRxStore() {
             super(null)
         }
 
-        StubRxStore(Class<?> inActionType, List<?> inActions, List<?> inErrors) {
+        StubRxStore(Class<?> inActionType, Map<Long, ?> inActions, List<?> inErrors) {
             super(null);
             this.mActionType = inActionType
-            this.mActionList = inActions
+            this.mActionMap = inActions
             this.mErrorList = inErrors
+        }
+
+        void setThreadPool(final int inCount) {
+            if (inCount > 0) {
+                this.mExecutor = Executors.newFixedThreadPool(inCount);
+            } else {
+                this.mExecutor = null
+            }
         }
 
         @Override
@@ -64,8 +74,17 @@ class RxStoreSpec extends Specification {
         }
 
         @Override
+        protected Executor getExecutor() {
+            if (this.mExecutor != null) {
+                return this.mExecutor
+            } else {
+                super.getExecutor()
+            }
+        }
+
+        @Override
         protected <TAction extends IFluxAction> void onAction(TAction inAction) {
-            this.mActionList.add(inAction)
+            this.mActionMap.put(Thread.currentThread().id, inAction)
         }
 
         @Override
@@ -147,7 +166,7 @@ class RxStoreSpec extends Specification {
 
     def "Test onDispatch"() {
         given:
-        def expectedActions = new ArrayList<>()
+        def expectedActions = new HashMap<Long, ?>()
         def expectedErrors = new ArrayList<>()
         def bus
         def target
@@ -159,6 +178,7 @@ class RxStoreSpec extends Specification {
         bus.onNext(new Object());
         bus.onNext(Mock(IFluxAction));
         bus.onNext(new StubAction("", null));
+        bus.onNext(new StubAction("", null));
         try {
             // wait for onDispatch complete
             Thread.sleep(100);
@@ -166,8 +186,41 @@ class RxStoreSpec extends Specification {
             fail("Test was interrupted for " + exInterrupted.toString());
         }
 
-        then: "RxStore only get the event which type is specify action type"
+        then: "RxStore only get the event which type is specified action type"
+        expectedActions.size() == 2
+        expectedErrors.size() == 0
+
+        when: "using thread pool with one thread"
+        expectedActions.clear()
+        target.setThreadPool(1)
+        bus.onNext(new StubAction("", null));
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "only one thread will be created"
         expectedActions.size() == 1
+        expectedErrors.size() == 0
+
+        when: "using thread pool with 3 threads"
+        expectedActions.clear()
+        target.setThreadPool(3)
+        bus.onNext(new StubAction("", null));
+        bus.onNext(new StubAction("", null));
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "3 actions will run in their own thread"
+        expectedActions.size() == 3
         expectedErrors.size() == 0
 
         when: "something go wrong inside onDispatch"

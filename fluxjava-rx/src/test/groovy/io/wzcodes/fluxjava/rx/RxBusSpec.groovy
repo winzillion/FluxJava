@@ -15,8 +15,6 @@
  */
 package io.wzcodes.fluxjava.rx
 
-import io.wzcodes.fluxjava.rx.IRxDispatch
-import io.wzcodes.fluxjava.rx.RxBus
 import rx.Observable
 import rx.Subscription
 import rx.functions.Action1

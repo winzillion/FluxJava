@@ -21,6 +21,7 @@ import io.wzcodes.fluxjava.IFluxAction;
 import io.wzcodes.fluxjava.IFluxBus;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 import rx.Observable;
 import rx.Subscription;
@@ -31,7 +32,7 @@ import rx.schedulers.Schedulers;
  * Use RxJava to extends {@link FluxStore} and use {@link RxBus} to pass data change events.
  *
  * @author WZ
- * @version 20160705
+ * @version 20170208
  */
 public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRxDispatch {
 
@@ -122,14 +123,27 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
                 .onBackpressureBuffer()
                 // Only send the action that store wants
                 .ofType(this.getActionType())
-                // Due to store could access network or storage, using IO type of thread to execute.
-                // RxJava use the thread pool to reuse IO type of threads and adjust the number of threads.
-                .observeOn(Schedulers.io())
                 .subscribe(
                         new Action1<IFluxAction>() {
                             @Override
                             public void call(final IFluxAction inAction) {
-                                RxStore.this.onAction(inAction);
+                                // Due to store could access network or storage,
+                                // each action using their own thread to execute.
+                                final Runnable runnable = new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        RxStore.this.onAction(inAction);
+                                    }
+                                };
+                                final Executor executor = RxStore.this.getExecutor();
+
+                                if (executor != null) {
+                                    executor.execute(runnable);
+                                } else {
+                                    final Thread thread = new Thread(runnable);
+
+                                    thread.start();
+                                }
                             }
                         },
                         new Action1<Throwable>() {
@@ -151,6 +165,16 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
     public <TEvent extends FluxContext.StoreChangeEvent> Observable<TEvent> toObservable (final Class<TEvent> inEventType) {
         // Base on input type return the observer that receive specific event
         return this.mRxBus.toObservable(inEventType);
+    }
+
+    /**
+     * Get a thread pool that will be used in dispatch actions.
+     *
+     * @return The instance of {@link Executor}.
+     * @since 2017/2/8
+     */
+    protected Executor getExecutor() {
+        return null;
     }
 
     /**
