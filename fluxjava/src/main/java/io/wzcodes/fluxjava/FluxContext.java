@@ -25,9 +25,17 @@ import java.util.Map;
  * It is an entry point to use FluxJava and it will bring the components in framework work together.
  *
  * @author WZ
- * @version 20160705
+ * @version 20170523
  */
 public class FluxContext {
+
+    private static FluxContext sInstance = null;
+
+    private final IFluxBus mBus;
+    private final ActionCreator mActionCreator;
+    private IActionHelper mActionHelper = null;
+    private Map<Object, Class<?>> mStoreMap = null;
+    private Map<Object, IFluxStore> mStoreKeepList = null;
 
     public interface StoreChangeEvent {}
 
@@ -101,14 +109,6 @@ public class FluxContext {
             return FluxContext.getInstance(this);
         }
     }
-
-    private static FluxContext sInstance = null;
-
-    private final IFluxBus mBus;
-    private final ActionCreator mActionCreator;
-    private IActionHelper mActionHelper = null;
-    private Map<Object, Class<?>> mStoreMap = null;
-    private Map<Object, IFluxStore> mStoreKeepList = null;
 
     /**
      * Constructor.
@@ -267,9 +267,11 @@ public class FluxContext {
 
                             result = (IFluxStore)constructor.newInstance(this.mBus);
                             this.registerStore(result, inView);
-                            if (this.mStoreKeepList != null && inTag != null) {
+                            if (inTag != null) {
                                 result.setTag(inTag);
-                                this.mStoreKeepList.put(inTag, result);
+                                if (this.mStoreKeepList != null) {
+                                    this.mStoreKeepList.put(inTag, result);
+                                }
                             }
                         } catch (IllegalAccessException exIllegalAccess) {
                             this.handleIllegalAccessException();

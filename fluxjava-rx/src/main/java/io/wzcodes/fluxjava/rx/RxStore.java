@@ -15,18 +15,16 @@
  */
 package io.wzcodes.fluxjava.rx;
 
+import java.util.List;
+import java.util.concurrent.Executor;
+
 import io.wzcodes.fluxjava.FluxContext;
 import io.wzcodes.fluxjava.FluxStore;
 import io.wzcodes.fluxjava.IFluxAction;
 import io.wzcodes.fluxjava.IFluxBus;
-
-import java.util.List;
-import java.util.concurrent.Executor;
-
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Use RxJava to extends {@link FluxStore} and use {@link RxBus} to pass data change events.

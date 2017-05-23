@@ -15,12 +15,6 @@
  */
 package io.wzcodes.fluxjava
 
-import io.wzcodes.fluxjava.ActionCreator
-import io.wzcodes.fluxjava.FluxContext
-import io.wzcodes.fluxjava.FluxStore
-import io.wzcodes.fluxjava.IActionHelper
-import io.wzcodes.fluxjava.IFluxBus
-import io.wzcodes.fluxjava.IFluxStore
 import spock.lang.Specification
 
 import java.lang.reflect.Field
@@ -108,6 +102,7 @@ class FluxContextSpec extends Specification {
     def "Test getBuilder with error"() {
         given:
         def target
+        def dummy = new FluxContext.Builder()
 
         when: "missing bus"
         target = FluxContext.getBuilder()
@@ -117,6 +112,7 @@ class FluxContextSpec extends Specification {
         target.build()
 
         then:
+        dummy != null
         thrown(IllegalArgumentException)
 
         when: "missing ActionCreator"
@@ -195,7 +191,7 @@ class FluxContextSpec extends Specification {
 
         then: "return instance of StubStore with null tag"
         actual instanceof StubStore
-        actual.tag == null
+        actual.tag == expectedTag
 
         when: "get the right store type and keepStore"
         target.setKeepStore(true);
