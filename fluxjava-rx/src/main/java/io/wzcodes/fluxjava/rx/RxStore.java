@@ -130,7 +130,11 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
                                 final Runnable runnable = new Runnable() {
                                     @Override
                                     public void run() {
-                                        RxStore.this.onAction(inAction);
+                                        try {
+                                            RxStore.this.onAction(inAction);
+                                        } catch (Exception exGeneral) {
+                                            RxStore.this.onError(exGeneral);
+                                        }
                                     }
                                 };
                                 final Executor executor = RxStore.this.getExecutor();

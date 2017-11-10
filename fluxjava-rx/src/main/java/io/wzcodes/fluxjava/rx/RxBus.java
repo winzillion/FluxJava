@@ -165,7 +165,7 @@ public class RxBus implements IFluxBus {
      * Remove a {@link Subscription} object from list that keep in {@link RxBus}
      * that is not called by {@link RxBus#register(Object)}.
      *
-     * @param inKey 用來存取 {@link Subscription} 的鍵值。
+     * @param inKey An object to identify {@link Subscription} object.
      * @since 2016/7/5
      */
     public void removeSubscription(final Object inKey) {

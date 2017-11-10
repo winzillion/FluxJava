@@ -43,6 +43,7 @@ class RxStoreSpec extends Specification {
         private List<?>  mErrorList
         private Class<?> mActionType
         private Executor mExecutor
+        private boolean mFailed
 
         StubRxStore() {
             super(null)
@@ -61,6 +62,10 @@ class RxStoreSpec extends Specification {
             } else {
                 this.mExecutor = null
             }
+        }
+
+        void setFailedOnAction() {
+            this.mFailed = true
         }
 
         @Override
@@ -84,13 +89,17 @@ class RxStoreSpec extends Specification {
 
         @Override
         protected <TAction extends IFluxAction> void onAction(TAction inAction) {
-            this.mActionMap.put(Thread.currentThread().id, inAction)
+            if (this.mFailed) {
+                throw new RuntimeException("onActionError")
+            } else {
+                this.mActionMap.put(Thread.currentThread().id, inAction)
+            }
         }
 
         @Override
         protected void onError(Throwable inThrowable) {
             this.mErrorList.add(inThrowable)
-        }
+         }
 
         @Override
         Object getItem(int inIndex) {
@@ -116,7 +125,7 @@ class RxStoreSpec extends Specification {
         def target = new StubRxStore()
 
         expect: "when view is null and nothing happen"
-        target.register(null);
+        target.register(null)
 
         when: "view is not implement IRxDataChange"
         target.register(new Object())
@@ -125,18 +134,27 @@ class RxStoreSpec extends Specification {
         thrown(IllegalArgumentException)
 
         when: "register a view and emmitChange"
-        target.register(view);
+        target.register(view)
         target.emitChange(expectedEvent);
 
         then: "view get the event"
         1 * view.onDataChange(expectedEvent)
+        0 * view.onDataError(_)
+
+        when: "emmitChange and throw exception during execution"
+        target.emitChange(expectedEvent)
+
+        then: "view get the event and error"
+        1 * view.onDataChange(expectedEvent) >> { throw new RuntimeException() }
+        1 * view.onDataError(_ as RuntimeException)
 
         when: "unregister specific view and emmitChange"
-        target.unregister(view);
-        target.emitChange(expectedEvent);
+        target.unregister(view)
+        target.emitChange(expectedEvent)
 
         then: "view will not get any event"
         0 * view.onDataChange(_)
+        0 * view.onDataError(_)
 
         when: "register a view from toObservable and emmitChange"
         target.toObservable(StubAddEvent.class)
@@ -223,7 +241,7 @@ class RxStoreSpec extends Specification {
         expectedActions.size() == 3
         expectedErrors.size() == 0
 
-        when: "something go wrong inside onDispatch"
+        when: "something go wrong inside onDispatch before onAction"
         expectedActions.clear()
         bus = new SerializedSubject<>(PublishSubject.create())
         target = new StubRxStore(null, expectedActions, expectedErrors)
@@ -239,6 +257,49 @@ class RxStoreSpec extends Specification {
         then: "ReStore get the error"
         expectedActions.size() == 0
         expectedErrors.size() == 1
+
+        when: "something go wrong inside onAction by using thread pool"
+        expectedActions.clear()
+        expectedErrors.clear()
+        bus = new SerializedSubject<>(PublishSubject.create())
+        target = new StubRxStore(StubAction.class, expectedActions, expectedErrors)
+        target.setThreadPool(1)
+        target.setFailedOnAction()
+        target.onDispatch(bus)
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "ReStore get the error"
+        expectedActions.size() == 0
+        expectedErrors.size() == 1
+        expectedErrors.get(0) instanceof RuntimeException
+        expectedErrors.get(0).message == "onActionError"
+
+        when: "something go wrong inside onAction by using new thread"
+        expectedActions.clear()
+        expectedErrors.clear()
+        bus = new SerializedSubject<>(PublishSubject.create())
+        target = new StubRxStore(StubAction.class, expectedActions, expectedErrors)
+        target.setFailedOnAction()
+        target.onDispatch(bus)
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "ReStore get the error"
+        expectedActions.size() == 0
+        expectedErrors.size() == 1
+        expectedErrors.get(0) instanceof RuntimeException
+        expectedErrors.get(0).message == "onActionError"
     }
 
     def "Test onDispatch with keys"() {

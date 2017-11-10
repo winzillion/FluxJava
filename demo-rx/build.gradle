@@ -14,7 +14,6 @@ android {
 
         // replace "android.support.test.runner.AndroidJUnitRunner" with custom one
         testInstrumentationRunner "com.example.fluxjava.rx.CustomJUnitRunner"
-
     }
     sourceSets {
         String sharedTestDir = 'src/sharedTest/java'
@@ -42,7 +41,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(':fluxjava')
     compile project(':fluxjava-rx')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support:recyclerview-v7:24.2.1'

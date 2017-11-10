@@ -14,7 +14,6 @@ android {
 
         // replace "android.support.test.runner.AndroidJUnitRunner" with custom one
         testInstrumentationRunner "com.example.fluxjava.eventbus.CustomJUnitRunner"
-
     }
     sourceSets {
         String sharedTestDir = 'src/sharedTest/java'
