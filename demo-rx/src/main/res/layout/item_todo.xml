@@ -45,7 +45,7 @@
             android:id="@+id/memo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="This is a sample descriiption to display a long wording and demo how cell wrapping." />
+            tools:text="This is a sample description to display a long wording and demo how cell wrapping." />
 
     </LinearLayout>
 

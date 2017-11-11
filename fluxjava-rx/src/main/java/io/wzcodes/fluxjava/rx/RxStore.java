@@ -30,7 +30,7 @@ import rx.functions.Action1;
  * Use RxJava to extends {@link FluxStore} and use {@link RxBus} to pass data change events.
  *
  * @author WZ
- * @version 20170208
+ * @version 20171110
  */
 public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRxDispatch {
 
@@ -107,7 +107,7 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
     }
 
     /**
-     * @since 2016/7/5
+     * @since 2017/11/10
      */
     @Override
     public Subscription onDispatch(final Observable<?> inObservable) {
@@ -164,7 +164,7 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
      * @return The instance of {@link Observable}.
      * @since 2016/7/5
      */
-    public <TEvent extends FluxContext.StoreChangeEvent> Observable<TEvent> toObservable (final Class<TEvent> inEventType) {
+    public <TEvent extends FluxContext.StoreChangeEvent> Observable<TEvent> toObservable(final Class<TEvent> inEventType) {
         // Base on input type return the observer that receive specific event
         return this.mRxBus.toObservable(inEventType);
     }

@@ -5,8 +5,10 @@
       <module fileurl="file://$PROJECT_DIR$/FluxJava.iml" filepath="$PROJECT_DIR$/FluxJava.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo-eventbus/demo-eventbus.iml" filepath="$PROJECT_DIR$/demo-eventbus/demo-eventbus.iml" />
       <module fileurl="file://$PROJECT_DIR$/demo-rx/demo-rx.iml" filepath="$PROJECT_DIR$/demo-rx/demo-rx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/demo-rx2/demo-rx2.iml" filepath="$PROJECT_DIR$/demo-rx2/demo-rx2.iml" />
       <module fileurl="file://$PROJECT_DIR$/fluxjava/fluxjava.iml" filepath="$PROJECT_DIR$/fluxjava/fluxjava.iml" />
       <module fileurl="file://$PROJECT_DIR$/fluxjava-rx/fluxjava-rx.iml" filepath="$PROJECT_DIR$/fluxjava-rx/fluxjava-rx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fluxjava-rx2/fluxjava-rx2.iml" filepath="$PROJECT_DIR$/fluxjava-rx2/fluxjava-rx2.iml" />
     </modules>
   </component>
 </project>

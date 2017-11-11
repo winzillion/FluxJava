@@ -36,18 +36,19 @@ cache:
 script:
 - ./gradlew :fluxjava:build
 - ./gradlew :fluxjava-rx:build
+- ./gradlew :fluxjava-rx2:build
 
 after_success:
   # Code coverage
   - bash <(curl -s https://codecov.io/bash)
   # Make pacakge for Github releases
-  - ./gradlew :fluxjava-rx:binaryZip
+  - ./gradlew :binaryZip
 
 # Push to Github releases
 deploy:
   provider: releases
   api_key: ${GH_TOKEN}
-  file: "fluxjava-rx/build/distributions/binary.zip"
+  file: "build/binary.zip"
   skip_cleanup: true
   on:
     tags: true # Only push commit with tag

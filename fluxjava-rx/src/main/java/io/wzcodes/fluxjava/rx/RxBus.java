@@ -78,7 +78,7 @@ public class RxBus implements IFluxBus {
      * @return The instance of {@link Observable}.
      * @since 2016/7/5
      */
-    public <TEvent> Observable<TEvent> toObservable (final Class<TEvent> inEventType) {
+    public <TEvent> Observable<TEvent> toObservable(final Class<TEvent> inEventType) {
         // Filter events by specific type passed in
         return this.mBus.ofType(inEventType);
     }

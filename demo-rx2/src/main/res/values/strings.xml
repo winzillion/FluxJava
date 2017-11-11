@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Demo</string>
+    <string name="dialog_title">Add Todo</string>
+    <string name="add">Add</string>
+    <string name="title">Title</string>
+    <string name="memo">Memo</string>
+    <string name="due_date">Due Date</string>
+</resources>

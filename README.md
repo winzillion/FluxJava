@@ -20,7 +20,15 @@ If you want to use `fluxjava-rx` in your project, you may need to add next depen
 ``` groovy
 dependencies {
     ...
-    compile "io.reactivex:rxjava:1.2.+”
+    compile "io.reactivex:rxjava:1.3.+”
+}
+```
+
+If you want to use `fluxjava-rx2` in your project, you may need to add next dependency in the build.gradle of the module:
+``` groovy
+dependencies {
+    ...
+    compile 'io.reactivex.rxjava2:rxjava:2.1.+'
 }
 ```
 
@@ -38,10 +46,10 @@ In this demo, you can:
 
 This demo project uses [EventBus](https://github.com/greenrobot/EventBus) from [greenrobot](http://greenrobot.org/) to help dispatcher and stores to send out messages.
 
-If you want to get benefit from [RxJava](https://github.com/ReactiveX/RxJava), you can check out `fluxjava-rx` folder for FluxJava addon.
-There is a demo duplicated from `demo-eventbus` sitting in `demo-rx` folder.
-In this demo the EventBus is replaced by RxBus from `fluxjava-rx`.
-The RxBus provides bus functionalities with RxJava 1.x library as EventBus do.
+If you want to get benefit from [RxJava](https://github.com/ReactiveX/RxJava), you can check out `fluxjava-rx` or `fluxjava-rx2` folder for FluxJava addon.
+There are two demo duplicated from `demo-eventbus` sitting in `demo-rx` and `demo-rx2` folder.
+In these demos, the EventBus is replaced by RxBus from `fluxjava-rx` or `fluxjava-rx2`.
+The RxBus provides bus functionalities with RxJava 1.x and 2.x library as EventBus do.
 
 # How to use
 ## Preparation
@@ -159,6 +167,19 @@ todoStore.toObservable(TodoStore.ListChangeEvent.class)
                 new Action1<TodoStore.ListChangeEvent>() {
                     @Override
                     public void call(final TodoStore.ListChangeEvent inEvent) {
+                        TodoAdapter.super.notifyDataSetChanged();
+                    }
+                });
+```
+
+In RxBus of RxJava2 case:
+``` java
+todoStore.toObservable(TodoStore.ListChangeEvent.class)
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(
+                new Consumer<TodoStore.ListChangeEvent>() {
+                    @Override
+                    public void accept(final TodoStore.ListChangeEvent inEvent) throws Exception {
                         TodoAdapter.super.notifyDataSetChanged();
                     }
                 });

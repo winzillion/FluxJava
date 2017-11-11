@@ -22,3 +22,16 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task binaryCopy(type: Copy) {
+    from "${project(':fluxjava').projectDir}/build/libs"
+    from "${project(':fluxjava-rx').projectDir}/build/libs"
+    from "${project(':fluxjava-rx2').projectDir}/build/libs"
+    into 'build/binary'
+}
+
+task binaryZip(type: Zip, dependsOn: binaryCopy) {
+    from 'build/binary'
+    archiveName = 'binary.zip'
+    destinationDir file('build')
+}

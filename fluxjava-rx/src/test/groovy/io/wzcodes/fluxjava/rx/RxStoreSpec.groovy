@@ -64,8 +64,16 @@ class RxStoreSpec extends Specification {
             }
         }
 
+        void mockExecutor(final Executor inExecutor) {
+            this.mExecutor = inExecutor
+        }
+
         void setFailedOnAction() {
             this.mFailed = true
+        }
+
+        void clearFailedOnAction() {
+            this.mFailed = false
         }
 
         @Override
@@ -187,6 +195,7 @@ class RxStoreSpec extends Specification {
         def expectedActions = new HashMap<Long, ?>()
         def expectedErrors = new ArrayList<>()
         def bus
+        def executor = Mock(Executor)
         def target
 
         when:
@@ -254,9 +263,31 @@ class RxStoreSpec extends Specification {
             fail("Test was interrupted for " + exInterrupted.toString());
         }
 
-        then: "ReStore get the error"
+        then: "RxStore get the error"
         expectedActions.size() == 0
         expectedErrors.size() == 1
+
+        when: "something go wrong with executor submit a task"
+        expectedActions.clear()
+        expectedErrors.clear()
+        bus = new SerializedSubject<>(PublishSubject.create())
+        target = new StubRxStore(StubAction.class, expectedActions, expectedErrors)
+        target.mockExecutor(executor)
+        executor.execute(_) >> { throw new RuntimeException("ExecutorError") }
+        target.onDispatch(bus)
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "RxStore get the error"
+        expectedActions.size() == 0
+        expectedErrors.size() == 1
+        expectedErrors.get(0) instanceof RuntimeException
+        expectedErrors.get(0).message == "ExecutorError"
 
         when: "something go wrong inside onAction by using thread pool"
         expectedActions.clear()
@@ -274,11 +305,27 @@ class RxStoreSpec extends Specification {
             fail("Test was interrupted for " + exInterrupted.toString());
         }
 
-        then: "ReStore get the error"
+        then: "RxStore get the error"
         expectedActions.size() == 0
         expectedErrors.size() == 1
         expectedErrors.get(0) instanceof RuntimeException
         expectedErrors.get(0).message == "onActionError"
+
+        when: "after RxStore get an error then send new action"
+        expectedActions.clear()
+        expectedErrors.clear()
+        target.clearFailedOnAction()
+        bus.onNext(new StubAction("", null));
+        try {
+            // wait for onDispatch complete
+            Thread.sleep(100);
+        } catch (InterruptedException exInterrupted) {
+            fail("Test was interrupted for " + exInterrupted.toString());
+        }
+
+        then: "RxStore get the action"
+        expectedActions.size() == 1
+        expectedErrors.size() == 0
 
         when: "something go wrong inside onAction by using new thread"
         expectedActions.clear()
@@ -295,7 +342,7 @@ class RxStoreSpec extends Specification {
             fail("Test was interrupted for " + exInterrupted.toString());
         }
 
-        then: "ReStore get the error"
+        then: "RxStore get the error"
         expectedActions.size() == 0
         expectedErrors.size() == 1
         expectedErrors.get(0) instanceof RuntimeException

@@ -1,1 +1,1 @@
-include ':demo-eventbus', ':fluxjava', ':fluxjava-rx', ':demo-rx'
+include ':demo-eventbus', ':fluxjava', ':fluxjava-rx', ':demo-rx', ':fluxjava-rx2', ':demo-rx2'
