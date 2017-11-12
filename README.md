@@ -47,9 +47,9 @@ In this demo, you can:
 This demo project uses [EventBus](https://github.com/greenrobot/EventBus) from [greenrobot](http://greenrobot.org/) to help dispatcher and stores to send out messages.
 
 If you want to get benefit from [RxJava](https://github.com/ReactiveX/RxJava), you can check out `fluxjava-rx` or `fluxjava-rx2` folder for FluxJava addon.
-There are two demo duplicated from `demo-eventbus` sitting in `demo-rx` and `demo-rx2` folder.
+There are two demos duplicated from `demo-eventbus` sitting in `demo-rx` and `demo-rx2` folder.
 In these demos, the EventBus is replaced by RxBus from `fluxjava-rx` or `fluxjava-rx2`.
-The RxBus provides bus functionalities with RxJava 1.x and 2.x library as EventBus do.
+The RxBus provides bus functionalities with RxJava 1.x or 2.x library as EventBus do.
 
 # How to use
 ## Preparation

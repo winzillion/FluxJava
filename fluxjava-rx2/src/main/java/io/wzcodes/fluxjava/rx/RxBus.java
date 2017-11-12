@@ -119,12 +119,15 @@ public class RxBus implements IFluxBus {
      */
     @Override
     public void unregister(final Object inSubscriber) {
-        final IRxDispatch subscriber = (IRxDispatch)inSubscriber;
         final List<Object> keys = new ArrayList<>();
 
         keys.add(inSubscriber);
-        if (subscriber.getKeys() != null) {
-            keys.addAll(subscriber.getKeys());
+        if (inSubscriber instanceof IRxDispatch) {
+            final IRxDispatch subscriber = (IRxDispatch)inSubscriber;
+
+            if (subscriber.getKeys() != null) {
+                keys.addAll(subscriber.getKeys());
+            }
         }
 
         for (Object key : keys) {

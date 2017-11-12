@@ -125,7 +125,24 @@ class RxStoreSpec extends Specification {
         }
     }
 
-    def "Test register"() {
+    def "Test register with IRxDispatch"() {
+        given:
+        def view = Mock(IRxDispatch)
+        def target = new StubRxStore()
+
+        expect: "when view is null and nothing happen"
+        target.register(null)
+
+        when: "register a view implements IRxDispatch"
+        target.register(view)
+
+        then: "registered by using bus"
+        1 * view.getKeys() >> null
+        1 * view.onDispatch(_)
+        0 * view.onDispatch(_, _)
+    }
+
+    def "Test register with IRxDataChange"() {
         given:
         def expected = 0
         def view = Mock(IRxDataChange)

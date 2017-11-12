@@ -56,7 +56,8 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
     @Override
     public void register(final Object inView) {
         // This method is preserved to keep compatibility with FluxContext
-        // Use toObservable can get the advantage from RxJava
+        // Use IRxDataChange interface can get rid of RxJava detail
+        // Implement IRxDispatch or call toObservable can get the advantage from RxJava
         if (inView != null) {
             if (inView instanceof IRxDataChange) {
                 final Subscription subscription = this.mRxBus
@@ -76,8 +77,10 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
                                 });
 
                 this.mRxBus.addSubscription(inView, subscription);
+            } else if (inView instanceof IRxDispatch) {
+                this.mRxBus.register(inView);
             } else {
-                throw new IllegalArgumentException("Must implement IRxDataChange.");
+                throw new IllegalArgumentException("Must implement IRxDataChange or IRxDispatch.");
             }
         }
     }
@@ -87,7 +90,7 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
      */
     @Override
     public void unregister(final Object inView) {
-        this.mRxBus.removeSubscription(inView);
+        this.mRxBus.unregister(inView);
     }
 
     /**

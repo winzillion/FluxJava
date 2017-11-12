@@ -73,6 +73,7 @@ class RxBusSpec extends Specification {
         def keys = new ArrayList<>()
         def store = Mock(IRxDispatch)
         def subscription = Mock(Subscription)
+        def view = new Object()
         
         store.getKeys() >>> [null, keys, keys, null, null, keys]
         store.onDispatch(_ as Observable) >> subscription
@@ -106,6 +107,15 @@ class RxBusSpec extends Specification {
 
         then: "Store is unsubscribed several times"
         2 * subscription.unsubscribe()
+
+        when: "register a non-IRxDispatch object"
+        this.mTarget.addSubscription(view, subscription)
+
+        and: "unregister it"
+        this.mTarget.unregister(view)
+
+        then: "it is unsubscribed"
+        1 * subscription.unsubscribe()
     }
 
     def "Test post"() {
