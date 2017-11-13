@@ -115,6 +115,9 @@ public abstract class RxStore<TEntity> extends FluxStore<TEntity> implements IRx
                             public void accept(final IFluxAction inAction) throws Exception {
                                 // Due to store could access network or storage,
                                 // each action using their own thread to execute.
+                                // But RxJava use single-thread to send every action
+                                // See also:
+                                // http://tomstechnicalblog.blogspot.tw/2015/11/rxjava-achieving-parallelization.html
                                 final Runnable runnable = new Runnable() {
                                     @Override
                                     public void run() {

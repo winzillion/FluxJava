@@ -50,7 +50,7 @@ public class FluxContext {
             // Do nothing
         }
 
-        IFluxBus getBus() {
+        private IFluxBus getBus() {
             return this.mBus;
         }
 
@@ -59,7 +59,7 @@ public class FluxContext {
             return this;
         }
 
-        ActionCreator getActionCreator() {
+        private ActionCreator getActionCreator() {
             return this.mActionCreator;
         }
 
@@ -68,7 +68,7 @@ public class FluxContext {
             return this;
         }
 
-        IActionHelper getActionHelper() {
+        private IActionHelper getActionHelper() {
             return this.mActionHelper;
         }
 
@@ -77,7 +77,7 @@ public class FluxContext {
             return this;
         }
 
-        Map<Object, Class<?>> getStoreMap() {
+        private Map<Object, Class<?>> getStoreMap() {
             return this.mStoreMap;
         }
 
@@ -86,7 +86,7 @@ public class FluxContext {
             return this;
         }
 
-        boolean getKeepStore() {
+        private boolean getKeepStore() {
             return this.mKeepStore;
         }
 

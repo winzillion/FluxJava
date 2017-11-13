@@ -58,7 +58,7 @@ class RxStoreSpec extends Specification {
 
         void setThreadPool(final int inCount) {
             if (inCount > 0) {
-                this.mExecutor = Executors.newFixedThreadPool(inCount);
+                this.mExecutor = Executors.newFixedThreadPool(inCount)
             } else {
                 this.mExecutor = null
             }
