@@ -23,5 +23,5 @@ jacocoTestReport {
 check.dependsOn jacocoTestReport
 
 group = 'io.wzcodes.fluxjava'
-version = '0.3'
+version = '0.3.1'
 

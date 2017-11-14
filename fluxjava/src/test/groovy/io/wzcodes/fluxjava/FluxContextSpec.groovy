@@ -55,6 +55,17 @@ class FluxContextSpec extends Specification {
         }
     }
 
+    private static class StubIllegalAccessStore extends StubAbsStore {
+        StubIllegalAccessStore(IFluxBus inBus) {
+            super(inBus)
+        }
+
+        @Override
+        void setTag(Object inTag) {
+            throw new IllegalAccessException()
+        }
+    }
+
     static class StubStore extends StubAbsStore {
         StubStore(IFluxBus inBus) {
             super(inBus)
@@ -271,20 +282,26 @@ class FluxContextSpec extends Specification {
         builder.actionHelper = actionHelper
         builder.storeMap = [0:Object.class,
                             1:StubAbsStore.class,
-                            2:StubErrorStore.class]
+                            2:StubErrorStore.class,
+                            3:StubIllegalAccessStore.class]
         target = builder.build()
 
         when:
-        actual = target.getStore(loop, null, null)
+        actual = target.getStore(loop, tag, null)
 
         then:
-        actual == null
+        if (loop == 3) {
+            actual != null
+        } else {
+            actual == null
+        }
 
         where:
-        loop | _
-        0    | _
-        1    | _
-        2    | _
+        loop | tag
+        0    | null
+        1    | null
+        2    | null
+        3    | new Object()
     }
 
     def "Test registerStore"() {
@@ -323,6 +340,7 @@ class FluxContextSpec extends Specification {
         def bus = Mock(IFluxBus)
         def builder = FluxContext.getBuilder()
         def actionHelper = Mock(IActionHelper)
+        def tag = new Object()
         def target
 
         builder.bus = bus
@@ -334,6 +352,7 @@ class FluxContextSpec extends Specification {
         target.unregisterStore(store, null);
 
         then: "only unregister of bus is called"
+        1 * store.tag >> null
         1 * bus.unregister(store)
         0 * store.unregister(_)
 
@@ -341,8 +360,22 @@ class FluxContextSpec extends Specification {
         target.unregisterStore(store, expectedView);
 
         then: "both unregister of bus and store are called"
+        1 * store.tag >> null
         1 * bus.unregister(store)
         1 * store.unregister(expectedView)
+
+        when: "unregister store with tag"
+        target.keepStore = true
+        target.mStoreKeepList.put(tag, store)
+        target.unregisterStore(store, null);
+
+        then: "store is unregistered from bus"
+        2 * store.tag >> tag
+        1 * bus.unregister(store)
+        0 * store.unregister(_)
+
+        and: "store is removed from keep list"
+        target.mStoreKeepList.size() == 0
     }
 
 }

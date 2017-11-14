@@ -335,6 +335,9 @@ public class FluxContext {
         if (inView != null) {
             inStore.unregister(inView);
         }
+        if (inStore.getTag() != null) {
+            this.mStoreKeepList.remove(inStore.getTag());
+        }
         this.mBus.unregister(inStore);
     }
 
@@ -346,7 +349,7 @@ public class FluxContext {
     public void clearAllStore() {
         if (this.mStoreKeepList != null) {
             for (Map.Entry entry : this.mStoreKeepList.entrySet()) {
-                this.unregisterStore((IFluxStore)entry.getValue(), null);
+                this.mBus.unregister(entry.getValue());
             }
             this.mStoreKeepList.clear();
         }
